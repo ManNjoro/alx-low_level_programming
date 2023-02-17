@@ -1,4 +1,4 @@
 #!/bin/bash
 git add .
-git commit -m "compilation"
+git commit -m "advanced using write not functions like printf"
 git push -u origin main
