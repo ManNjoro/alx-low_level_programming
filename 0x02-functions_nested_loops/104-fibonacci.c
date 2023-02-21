@@ -7,11 +7,11 @@
 
 int main(void)
 {
-	int a;
+	long int a;
 
-	int b;
+	long int b;
 
-	int c;
+	long int c;
 
 	int count;
 
@@ -19,14 +19,14 @@ int main(void)
 	b = 2;
 	count = 2;
 
-	printf("%d, %d", a, b);
+	printf("%li, %li", a, b);
 
 	while (count <= 98)
 	{
 		c = a + b;
 		a = b;
 		b = c;
-		printf(", %d", c);
+		printf(", %li", c);
 		count++;
 	}
 	printf("\n");
