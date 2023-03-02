@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define PASSWORD_LENGTH 6
+#define PASSWORD_LENGTH 15
+const char PASSWORD[PASSWORD_LENGTH + 1] = "Tada! Congrats";
 
 /**
  * main - generates random valid passwords
@@ -13,7 +14,6 @@
 int main(void)
 {
 	int i;
-       	char password[PASSWORD_LENGTH + 1];
        	const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}|;:,.<>?";
 	
        	srand(time(NULL));
