@@ -1,8 +1,3 @@
 #!/bin/bash
-
-# Create a static library from the object files
-ar rc liball.a *.o
-
-# Index the library for faster linking
-ranlib liball.a
-
+gcc -Wall -pedantic -Werror -Wextra -c *.c
+ar -crs liball.a *.o
