@@ -1,126 +1,133 @@
 #include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
 
-/**
- * check_num - function to check the string for number
- * @st: string being passed
- * Return: 1 for number 0 for not
- */
-int check_num(char *st)
-{
-	int a;
+int _strlen(char *s);
+void _puts(char *s);
+void print_error(void);
+int multiply(char *num1, char *num2);
 
-	for (a = 0; st[a] != '\0'; a++)
+/**
+ * main - Entry point
+ *
+ * @argc: number of arguments
+ * @argv: array of arguments
+ *
+ * Return: Always 0
+ */
+int main(int argc, char *argv[])
+{
+	int res;
+
+	if (argc != 3 || !multiply(argv[1], argv[2]))
 	{
-		if (st[a] < '0' || st[a] > '9')
-			return (0);
+		print_error();
+		return (98);
 	}
+
+	return (0);
+}
+
+/**
+ * multiply - Multiplies two numbers
+ *
+ * @num1: First number
+ * @num2: Second number
+ *
+ * Return: 1 if successful, 0 otherwise
+ */
+int multiply(char *num1, char *num2)
+{
+	int len1 = _strlen(num1);
+	int len2 = _strlen(num2);
+	int i, j, carry, n1, n2, sum, *result;
+
+	result = malloc(sizeof(int) * (len1 + len2));
+
+	if (!result)
+		return (0);
+
+	for (i = 0; i < len1 + len2; i++)
+		result[i] = 0;
+
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		carry = 0;
+		n1 = num1[i] - '0';
+
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			n2 = num2[j] - '0';
+			sum = n1 * n2 + result[i + j + 1] + carry;
+			carry = sum / 10;
+			result[i + j + 1] = sum % 10;
+		}
+
+		if (carry)
+			result[i + j + 1] += carry;
+	}
+
+	for (i = 0; i < len1 + len2; i++)
+	{
+		if (result[i] != 0)
+			break;
+	}
+
+	if (i == len1 + len2)
+	{
+		_putchar('0');
+		_putchar('\n');
+	}
+	else
+	{
+		for (; i < len1 + len2; i++)
+			_putchar(result[i] + '0');
+
+		_putchar('\n');
+	}
+
+	free(result);
 	return (1);
 }
-/**
- * string_length - calculating string length
- * @str: string to check
- * Return: count
- *
- */
-unsigned int string_length(char *str)
-{
-	int a;
 
-	for (a = 0; str[a] != '\0'; a++)
-		a++;
-	return (a);
+/**
+ * _strlen - Calculates the length of a string
+ *
+ * @s: String
+ *
+ * Return: Length of the string
+ */
+int _strlen(char *s)
+{
+	int i;
+
+	for (i = 0; s[i] != '\0'; i++)
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
+	}
+
+	return (i);
 }
 
 /**
- * print_string - function to print string
- * @st: string to print
- * Return: none
+ * _puts - Prints a string, followed by a new line, to stdout
+ *
+ * @s: String
  */
-void print_string(char *st)
+void _puts(char *s)
 {
-	while (*st == '\0')
-		st++;
-	if (*st == '\0')
-		_putchar('0');
-	while (*st == '0')
-		st++;
-	while (*st != '\0')
-	{
-		_putchar(*st);
-		st++;
-	}
+	int i;
+
+	for (i = 0; s[i] != '\0'; i++)
+		_putchar(s[i]);
+
 	_putchar('\n');
 }
 
 /**
- * _calloc - function for memory
- * @number: the number
- * @size: the size
- * Return: pointer to memory
+ * print_error - Prints an error message
  */
-void *_calloc(unsigned int number, unsigned int size)
+void print_error(void)
 {
-	char *p;
-	unsigned int a;
-
-	if (number == 0 || size == 0)
-		return (NULL);
-	p = malloc(number * size);
-	if (p == 0)
-		return (NULL);
-	for (a = 0; a < (number * size); a++)
-		p[a] = 0;
-	return (p);
-}
-
-/**
- * main - function to multiply
- * @argc: number of arguments passed
- * @argv: argument variables
- * Return: Always zero
- */
-int main(int argc, char **argv)
-{
-	char *n1, *n2, *multi_res;
-	unsigned int l = 0, l1 = 0, l2 = 0, a, b, t = 0, c = 0, ten = 0;
-
-	if (argc < 3)
-	{
-		print_string("Error");
-		exit(98);
-	}
-	n1 = argv[1];
-	n2 = argv[2];
-	if (!(check_num(n1) && check_num(n2)))
-	{
-		print_string("Error");
-		exit(98);
-	}
-	l1 = string_length(n1);
-	l2 = string_length(n2);
-	l = l1 + l2;
-	multi_res = _calloc(l + 1, sizeof(char *));
-	if (multi_res == 0)
-	{
-		print_string("Error");
-		exit(98);
-	}
-	for (a = 0; a < l1; a++, ten++)
-	{
-		for (c = 0, b = 0; b < l2; b++)
-		{
-			t = (n1[l1 - a - 1] - '0') * (n2[l2 - b - 1] - '0') + c;
-			printf("%u\n", t);
-			if (multi_res[l - b - ten - 1] > 0)
-				t = t + multi_res[l - b - ten - 1] - '0';
-			multi_res[l - b - ten - 1] = t % 10 + '0';
-			c = t / 10;
-		}
-		multi_res[l - b - ten - 1] += c + '0';
-	}
-	print_string(multi_res);
-	free(multi_res);
-	return (0);
+	_puts("Error");
 }
