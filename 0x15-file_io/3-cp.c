@@ -3,12 +3,12 @@
 
 /**
  * error_handler - handles errors for cp
- * @exit: exit code
+ * @exit_m: exit code
  * @msg: error message
  * @type: data type for format
  */
 
-void error_handler(int exit, char *msg, char type, ...)
+void error_handler(int exit_m, char *msg, char type, ...)
 {
 	va_list args;
 
@@ -22,7 +22,7 @@ void error_handler(int exit, char *msg, char type, ...)
 	else
 		dprintf(STDERR_FILENO, "Error: Does not match any type\n");
 	va_end(args);
-	exit(exit);
+	exit(exit_m);
 }
 
 /**
